@@ -216,7 +216,7 @@ class Allimages extends State<ShowImage> {
                         builder: (context) => SelectImageHomePage(
                               imageListD: imageListD,
                               lenListC: lenListC,
-                              iconselect: "Delete",
+                              iconselect: "move",
                               statusitem: statusitem,
                               title: this.name,
                               /*iconselect: "delete"*/

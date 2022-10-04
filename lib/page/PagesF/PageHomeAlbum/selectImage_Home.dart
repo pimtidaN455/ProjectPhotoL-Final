@@ -132,8 +132,9 @@ class _SelectImageDeviceState extends State<SelectImageHomePage> {
                           ),
                           Center(
                             child: CircleAvatar(
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
+                              backgroundColor: this.iconselect == 'move'
+                                  ? Color.fromARGB(255, 255, 255, 255)
+                                  : Color.fromARGB(255, 255, 0, 0),
                               child: Icon(
                                 Icons.check,
                                 color: Color.fromARGB(255, 0, 0, 0),
@@ -161,8 +162,9 @@ class _SelectImageDeviceState extends State<SelectImageHomePage> {
                           ),
                           Center(
                             child: CircleAvatar(
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
+                              backgroundColor: this.iconselect == 'move'
+                                  ? Color.fromARGB(255, 255, 255, 255)
+                                  : Color.fromARGB(255, 170, 22, 22),
                               child: Icon(
                                 Icons.check,
                                 color: Color.fromARGB(255, 0, 0, 0),
@@ -188,8 +190,9 @@ class _SelectImageDeviceState extends State<SelectImageHomePage> {
                           ),
                           Center(
                             child: CircleAvatar(
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
+                              backgroundColor: this.iconselect == 'move'
+                                  ? Color.fromARGB(255, 255, 255, 255)
+                                  : Color.fromARGB(255, 255, 0, 0),
                               child: Icon(
                                 Icons.check,
                                 color: Color.fromARGB(255, 0, 0, 0),
@@ -215,8 +218,9 @@ class _SelectImageDeviceState extends State<SelectImageHomePage> {
                           ),
                           Center(
                             child: CircleAvatar(
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
+                              backgroundColor: this.iconselect == 'move'
+                                  ? Color.fromARGB(255, 255, 255, 255)
+                                  : Color.fromARGB(255, 255, 0, 0),
                               child: Icon(
                                 Icons.check,
                                 color: Color.fromARGB(255, 0, 0, 0),
