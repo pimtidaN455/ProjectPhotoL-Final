@@ -1,5 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_downloader/image_downloader.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:project_photo_learn/page/Backend/User_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/Edit_Album.dart';
 
@@ -349,6 +356,25 @@ class use_API {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to create album.');
+    }
+  }
+
+  saveImage(String url) async {
+    try {
+      // Saved with this method.
+      var imageId = await ImageDownloader.downloadImage(
+          "https://raw.githubusercontent.com/wiki/ko2ic/image_downloader/images/flutter.png");
+      if (imageId == null) {
+        return;
+      }
+
+      // Below is a method of obtaining saved image information.
+      var fileName = await ImageDownloader.findName(imageId);
+      var path = await ImageDownloader.findPath(imageId);
+      var size = await ImageDownloader.findByteSize(imageId);
+      var mimeType = await ImageDownloader.findMimeType(imageId);
+    } on PlatformException catch (error) {
+      print(error);
     }
   }
 

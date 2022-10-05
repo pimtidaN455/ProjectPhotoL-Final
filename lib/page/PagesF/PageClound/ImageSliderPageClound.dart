@@ -13,8 +13,8 @@ import 'package:project_photo_learn/page/PagesF/first.dart';
 
 class SlideImageC extends StatelessWidget {
   final String title = 'Interactive Viewer';
-  var namealbumC;
-  var selectpicC;
+  var namealbumC; //ชื่อรูปภาพ
+  var selectpicC; //รูปภาพ
   SlideImageC({required this.namealbumC, required this.selectpicC});
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -81,8 +81,10 @@ class _MainPageState extends State<SlideImageC2> with TickerProviderStateMixin {
                   color: MyStyle().blackColor,
                 ),
                 onPressed: () {
-                  namealbumC; //ชื่อรูปคลาว
-                  selectpicC; //ลิ้งค์รูปคาว
+                  use_API ua = new use_API();
+                  ua.saveImage(selectpicC);
+                  //namealbumC; //ชื่อรูปคลาว
+                  //selectpicC; //ลิ้งค์รูปคาว
                 },
               ),
               IconButton(
