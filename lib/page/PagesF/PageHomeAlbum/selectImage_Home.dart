@@ -163,7 +163,7 @@ class _SelectImageDeviceState extends State<SelectImageHomePage> {
                           Center(
                             child: CircleAvatar(
                               backgroundColor: this.iconselect == 'move'
-                                  ? Color.fromARGB(255, 255, 255, 255)
+                                  ? Color.fromARGB(255, 192, 192, 192)
                                   : Color.fromARGB(255, 170, 22, 22),
                               child: Icon(
                                 Icons.check,

@@ -6,6 +6,7 @@ import 'package:project_photo_learn/Object/imagecloud.dart';
 import 'package:project_photo_learn/Sqfl/DBHelper.dart';
 import 'package:project_photo_learn/page/Backend/Use_Api.dart';
 import 'package:project_photo_learn/page/Backend/User_data.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/Delete_Albums.dart';
 
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImagePage.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/manageimage_homt.dart';
@@ -23,7 +24,8 @@ class AlertDialogs_manage_album {
       String body,
       String nameAlbum,
       String status,
-      var datamanage_album) async {
+      var datamanage_album,
+      String cheack) async {
     final action = await showDialog(
       context: context,
       barrierDismissible: false,
@@ -44,20 +46,13 @@ class AlertDialogs_manage_album {
               ),
             ),
             TextButton(
-              //onPressed: () => Navigator.of(context).pop(DialogsAction.yes),
               onPressed: () async {
-                ////////
-                ///
-                ///
                 var page;
                 use_API api = new use_API();
                 print("**********//////////////////*******************");
+
                 if (status == "delete") {
-                  print("**********//////////////////*******************");
-                  print("delete");
                   await api.manage_Album(nameAlbum, "", "", "", status);
-                  print("**********//////////////////*******************");
-                  print("**********//////////////////*******************");
                   user_file user0 = new user_file();
                   await user0.getdata_user_file();
                   var user = await user0;
@@ -85,13 +80,46 @@ class AlertDialogs_manage_album {
                   var ListTag = [];
                   ManageTag mnt = new ManageTag();
                   ListTag = await mnt.getTagAlbum();
+                  print("เช็ค cheack");
+                  print(cheack);
+                  if (cheack == "Select_Delete") {
+                    print("เช็ค cheack อีกที");
+                    print(cheack);
+                    user_file user0 = new user_file();
+                    await user0.getdata_user_file();
+                    var user = await user0;
 
-                  page = FirstState(
-                      page: 0,
-                      user: user,
-                      listimageshow: listimageshow,
-                      ListImgCloud: ListImgCloud,
-                      AllTagAlbum: ListTag);
+                    var ListImgCloudfor_delete;
+                    var listimagefor_delete;
+                    if (await user.Login) {
+                      list_album la = new list_album();
+
+                      await la.getimagefrom_api_No_Cloud();
+                      print(
+                          'LAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLa');
+                      //print(await la.listimageshow_device);
+                      listimagefor_delete = await la.listimageshow;
+
+                      listimagecloud listimgC = new listimagecloud();
+                      ListImgCloud = await listimgC.getimagefrom_api();
+                      print('\\\\\\\\\\\\\\\\\List\\\\\\\\\\\\\\\\');
+                    }
+                    var ListTag = [];
+                    ManageTag mnt = new ManageTag();
+                    ListTag = await mnt.getTagAlbum();
+
+                    page = DeleteAlbums(
+                        user: user,
+                        listimageshow: listimagefor_delete,
+                        ListImgCloud: ListImgCloud);
+                  } else {
+                    page = FirstState(
+                        page: 0,
+                        user: user,
+                        listimageshow: listimageshow,
+                        ListImgCloud: ListImgCloud,
+                        AllTagAlbum: ListTag);
+                  }
                 }
                 if (status == "update") {
                   await api.manage_Album(
@@ -141,7 +169,6 @@ class AlertDialogs_manage_album {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => page));
               },
-
               child: Text(
                 'Confirm',
                 style: TextStyle(

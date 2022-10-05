@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:project_photo_learn/Object/imagecloud.dart';
-import 'package:project_photo_learn/Sqfl/DBHelper.dart';
 import 'package:project_photo_learn/my_style.dart';
 import 'package:project_photo_learn/page/Backend/Use_Api.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/places_data.dart';
@@ -28,8 +27,8 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
   TextEditingController Add_des = TextEditingController();
   TextEditingController Add_Keyword_SubJ = TextEditingController();
   //สร้างตัวแปร fromKey
-  final _fromKey = GlobalKey<FormState>();
-  final _fromKey2 = GlobalKey<FormState>();
+  final _EdKeyword = GlobalKey<FormState>();
+  final _EdDes = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +37,9 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          "Add Album",
+          "Edit Keyword and Description",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 25,
             color: MyStyle().blackColor,
             fontWeight: FontWeight.bold,
             fontFamily: 'Rajdhani',
@@ -108,7 +107,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
         Padding(
             padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
             child: Form(
-              key: _fromKey2,
+              key: _EdDes,
               child: Column(
                 //mainAxisSize: MainAxisSize.min,
                 children: [
@@ -203,40 +202,6 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
     );
   }
 
-  Container AddNameSubJ() {
-    return Container(
-      margin: EdgeInsets.only(top: 16, bottom: 16),
-      width: screen * 0.8,
-      child: TextFormField(
-        controller: Add_Name_SubJ,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            suffixIcon: IconButton(
-              onPressed: () {
-                Add_Name_SubJ.clear();
-              },
-              icon: const Icon(Icons.clear),
-            ),
-            labelText: 'Name of suject',
-            //prefixIcon: Icon(Icons.email_outlined),
-            enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-            focusedBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
-        validator: (value) {
-          final Add_Name_SubJ = RegExp(r"^[a-zA-Zก-๏\s]");
-          if (value!.isEmpty) {
-            return "Please enter name of subject";
-          }
-          if (Add_Name_SubJ.hasMatch(value)) {
-            return null;
-          } else
-            return "Please enter a-z A-Z 0-9 ก-ฮ ";
-        },
-      ),
-    );
-  }
-
   Container AddDesription() {
     return Container(
       margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -279,7 +244,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
         child: Text('Confirm'),
         onPressed: () async {
           print('--------------- Add Album ---------------');
-          bool validate = _fromKey.currentState!.validate();
+          bool validate = _EdKeyword.currentState!.validate();
           if (validate) {
             print(Add_Name_SubJ.text);
             var keyword = "";

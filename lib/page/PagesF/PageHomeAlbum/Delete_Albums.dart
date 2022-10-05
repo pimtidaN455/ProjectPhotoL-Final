@@ -12,6 +12,7 @@ import 'package:project_photo_learn/page/Backend/User_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/Edit_Album.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/AddAlbumPage.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ManageHomePage.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/manage_album_Home.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/places_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImagePage.dart';
 import 'package:project_photo_learn/page/PagesF/PageSearch/tag_state.dart';
@@ -110,68 +111,6 @@ class AlbumScreenWidget extends State<DeleteAlbums> {
                           AllTagAlbum: ListTag)));
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                color: MyStyle().blackColor,
-              ),
-              onPressed: () async {
-                DBHelper db = DBHelper();
-                await db.deletedata_intable();
-                user_file user = await new user_file();
-                await user.getdata_user_file();
-                var user0 = await user;
-                var ListImgCloud;
-                var listimageshow;
-
-                //
-
-                if (await user.Login) {
-                  list_album la = await new list_album();
-                  await la.getimagefrom_api();
-                  print(
-                      'LAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLa');
-                  listimageshow = await la.listimageshow;
-
-                  listimagecloud listimgC = await new listimagecloud();
-                  ListImgCloud = await listimgC.getimagefrom_api();
-                  print('\\\\\\\\\\\\\\\\\List\\\\\\\\\\\\\\\\');
-                  if (ListImgCloud != null && ListImgCloud.length != 0) {
-                    for (int i = 0; i < ListImgCloud.length; i++) {
-                      print(await ListImgCloud[i].geturlimage());
-                    }
-                  }
-                }
-                var ListTag = [];
-                ManageTag mnt = new ManageTag();
-                ListTag = await mnt.getTagAlbum();
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FirstState(
-                            page: 0,
-                            user: user,
-                            listimageshow: listimageshow,
-                            ListImgCloud: ListImgCloud,
-                            AllTagAlbum: ListTag)));
-              },
-            ),
-
-            /*TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Edit ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: MyStyle().blackColor,
-                    fontWeight: FontWeight.bold,
-                    //fontStyle: FontStyle.normal,
-                    fontFamily: 'Rajdhani',
-                  ),
-                ))*/
-          ],
           automaticallyImplyLeading: false,
         ),
         body: GridView.extent(
@@ -235,23 +174,8 @@ class _GridItem_Cloud extends StatelessWidget {
             fit: BoxFit.cover,
             child: InkWell(
               onTap: () async {
-                list_album listA = new list_album();
-                var showDevice = await listA.getImag_inAlbum(title);
-                print(showDevice);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            //ShowImage(name: title, selectbum: selectbum)
-                            ShowImage(
-                              name: title,
-                              listimageshow: showDevice,
-                            )));
-                print("เลือกอัลบั้มที่ : ");
-                print(title);
-                print(showDevice);
-                print(
-                    "///////////////////////////////////////////////////////");
+                AlertDialogs_manage_album.yesCancelDialog(context, 'Delete',
+                    'are you sure?', this.title, "delete", "", "Select_Delete");
               },
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -330,21 +254,8 @@ class _GridItem_Devoce extends StatelessWidget {
       //image: AssetImage(img),
       child: InkWell(
         onTap: () async {
-          list_album listA = new list_album();
-          var showDevice = await listA.getImag_inAlbum(title);
-          print(showDevice);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      //ShowImage(name: title, selectbum: selectbum)
-                      ShowImage(
-                        name: title,
-                        listimageshow: showDevice,
-                      )));
-          print("เลือกอัลบั้มที่ : ");
-          print(showDevice);
-          print("///////////////////////////////////////////////////////");
+          AlertDialogs_manage_album.yesCancelDialog(context, 'Delete',
+              'are you sure?', this.title, "delete", "", "Select_Delete");
         },
         child: Align(
           alignment: Alignment.bottomCenter,

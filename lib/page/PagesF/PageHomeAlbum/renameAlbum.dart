@@ -165,7 +165,8 @@ class _rename_albumState extends State<rename_album> {
               'are you sure?',
               this.name,
               "update",
-              itemEdit);
+              itemEdit,
+              "");
           print(rename.text);
           rename.text;
         },

@@ -1,21 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-
 import 'package:project_photo_learn/Object/imagecloud.dart';
-
 import 'package:project_photo_learn/Sqfl/DBHelper.dart';
-
 import 'package:project_photo_learn/my_style.dart';
-
 import 'package:project_photo_learn/page/Backend/User_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/Edit_keyword_des.dart';
-
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImagePage.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/manage_album_Home.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/places_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/renameAlbum.dart';
-
 import 'package:project_photo_learn/page/PagesF/first.dart';
 
 // ignore: must_be_immutable
@@ -78,9 +72,10 @@ class setting_album_page extends State<setting_Album_Client> {
                           statusAlbum: "Usercreate")));
         },
       ),
-      backgroundColor: MyStyle().blackColor,
+      ////////////////////////////////////////////
+      backgroundColor: MyStyle().deleteColor,
       title: Text(
-        "Setting Album",
+        "Album details " + this.title,
         style: TextStyle(
           fontSize: 30,
           color: MyStyle().whiteColor,
@@ -100,16 +95,16 @@ class setting_album_page extends State<setting_Album_Client> {
 
       child: Stack(
         children: <Widget>[
-          Container(
+          /*Container(
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 56),
             height: size.height * 0.2 - 60,
             decoration: BoxDecoration(
-              color: MyStyle().blackColor,
+              color: MyStyle().perpleColor,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(36),
                   bottomRight: Radius.circular(36)),
             ),
-          ),
+          ),*/
           Container(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -118,9 +113,10 @@ class setting_album_page extends State<setting_Album_Client> {
                   height: 5,
                 ),
                 Text(
-                  this.title,
+                  //ชื่ออัลบั้ม
+                  "Name Album : " + this.title,
                   style: TextStyle(
-                    color: MyStyle().whiteColor,
+                    color: MyStyle().blackColor,
                     fontSize: 20,
                     fontFamily: 'Poppins',
                   ),
@@ -129,9 +125,10 @@ class setting_album_page extends State<setting_Album_Client> {
                   height: 10,
                 ),
                 Text(
+                  //คีย์เวิร์ดทั้งหมดของอัลบั้มนั้น
                   "Keyword : " + keyword,
                   style: TextStyle(
-                    color: MyStyle().whiteColor,
+                    color: MyStyle().blackColor,
                     fontSize: 15,
                     fontFamily: 'Poppins',
                   ),
@@ -140,16 +137,17 @@ class setting_album_page extends State<setting_Album_Client> {
                   height: 15,
                 ),
                 Text(
+                  //เดสทั้งหมดของอลับั้มนั้น
                   "Description : " + description,
                   style: TextStyle(
-                    color: MyStyle().grayColor,
+                    color: MyStyle().blackColor,
                     fontSize: 15,
                     fontFamily: 'Poppins',
                   ),
                 ),
-
-                ///////////// How to ///////////////
-                Container(
+              ])
+              ///////////// How to ///////////////
+              /*Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: FlatButton(
@@ -253,7 +251,9 @@ class setting_album_page extends State<setting_Album_Client> {
                     ),
                   ),
                 ),
-              ])),
+
+                */
+              ),
         ],
       ),
     );

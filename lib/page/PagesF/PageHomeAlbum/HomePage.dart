@@ -180,20 +180,42 @@ class AlbumScreenWidget extends State<Homepage> {
                 Icons.folder_delete_outlined,
                 color: MyStyle().deleteColor,
               ),
-              onPressed: () {
-                print("////*************////////////");
-                print(this.ListImgCloud);
-                print(this.listimageshow);
+              onPressed: () async {
+                user_file user0 = new user_file();
+                await user0.getdata_user_file();
+                var user = await user0;
 
-                print("////*************////////////");
+                var ListImgCloudfor_delete;
+                var listimagefor_delete;
+                if (await user.Login) {
+                  list_album la = new list_album();
+                  var ListImageDevice = await la.getimagefrom_api_No_Cloud();
+                  print(
+                      'LAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLa');
+                  //print(await la.listimageshow_device);
+                  listimagefor_delete = await la.listimageshow;
+
+                  listimagecloud listimgC = new listimagecloud();
+                  ListImgCloud = await listimgC.getimagefrom_api();
+                  print('\\\\\\\\\\\\\\\\\List\\\\\\\\\\\\\\\\');
+                }
+                var ListTag = [];
+                ManageTag mnt = new ManageTag();
+                ListTag = await mnt.getTagAlbum();
 
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => DeleteAlbums(
                             user: this.user,
-                            listimageshow: this.listimageshow,
-                            ListImgCloud: this.ListImgCloud)));
+                            listimageshow: listimagefor_delete,
+                            ListImgCloud: ListImgCloud)));
+
+                print("////*************////////////");
+                print(this.ListImgCloud);
+                print(this.listimageshow);
+
+                print("////*************////////////");
               },
             ),
             /*TextButton(
@@ -395,35 +417,32 @@ class _GridItem_Devoce extends StatelessWidget {
           print("///////////////////////////////////////////////////////");
         },
         child: Align(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.bottomLeft,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            /*decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: selected ?? false ? Colors.red : Colors.transparent,
-                  width: selected ?? false ? 5 : 0,
-                ),
-              ),
-            ),*/
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: <Widget>[
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 16),
-                ),
-              ),
-            ]),
+            child: Wrap(
+                //textDirection: TextDirection.ltr, //
+                children: <Widget>[
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18),
+                    ),
+                  ),
+                ]),
           ),
         ),
       ),

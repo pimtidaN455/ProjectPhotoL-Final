@@ -2,11 +2,15 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:project_photo_learn/Object/imagecloud.dart';
 import 'package:project_photo_learn/Sqfl/DBHelper.dart';
 import 'package:project_photo_learn/my_style.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/Edit_keyword_des.dart';
 //import 'package:project_photo_learn/page/PagesF/PageClound/FileCloudPage.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImageSliderPage.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/manage_album_Home.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/renameAlbum.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/selectImage_Home.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/places_data.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/setting_album_client.dart';
@@ -15,6 +19,8 @@ import 'package:project_photo_learn/page/PagesF/PageSearch/tag_state.dart';
 import 'package:project_photo_learn/page/PagesF/first.dart';
 
 import '../../Backend/User_data.dart';
+
+//enum Menu { itemZero, itemOne, itemTwo, itemThree }
 
 // ignore: must_be_immutable
 class ShowImage extends StatefulWidget {
@@ -104,7 +110,7 @@ class Allimages extends State<ShowImage> {
           //centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: MyStyle().whiteColor,
-          actions: [
+          actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.restore,
@@ -278,7 +284,92 @@ class Allimages extends State<ShowImage> {
               },
             ),
             if (statusAlbum == "Usercreate")
-              IconButton(
+              PopupMenuButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: MyStyle().blackColor,
+                  ),
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                        const PopupMenuItem(
+                          value: 0,
+                          child: Text('ข้อมูลอัลบั้มทั้งหมด'),
+                        ),
+                        const PopupMenuItem(
+                          value: 1,
+                          child: Text('เปลี่ยนชื่ออัลบั้ม'),
+                        ),
+                        const PopupMenuItem(
+                          value: 2,
+                          child: Text('แก้ไขคีย์เวิร์ด'),
+                        ),
+                        const PopupMenuItem(
+                          value: 3,
+                          child: Text('ลบอัลบั้ม'),
+                        ),
+                      ],
+                  onSelected: (values) async {
+                    if (values == 0) {
+                      DBHelper db = new DBHelper();
+                      var dataalbum = await db.getData_Album(this.name);
+                      print("////");
+                      print(dataalbum);
+
+                      print("////");
+                      print(dataalbum[0]['IDENTITYALBUM']);
+                      if (dataalbum[0]['IDENTITYALBUM'] != "Servercreate") {
+                        var description = "";
+                        var keyword = "";
+                        if (dataalbum[0]['DESCRIPTIONALBUM'].length != 0) {
+                          description = dataalbum[0]['DESCRIPTIONALBUM'];
+                        }
+                        if (dataalbum[0]['KEYWORDALBUM'].length != 0) {
+                          //keyword = dataalbum[0]['KEYWORDALBUM'];
+                          for (int i = 0;
+                              i < dataalbum[0]['KEYWORDALBUM'].length;
+                              ++i) {
+                            if (dataalbum[0]['KEYWORDALBUM'][i] == "/" &&
+                                i < dataalbum[0]['KEYWORDALBUM'].length - 1) {
+                              keyword += " , ";
+                            } else if (dataalbum[0]['KEYWORDALBUM'][i] != "/") {
+                              keyword += dataalbum[0]['KEYWORDALBUM'][i];
+                            }
+                          }
+                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    setting_Album_Client(
+                                        title: this.name,
+                                        description: description,
+                                        keyword: keyword)));
+                      }
+                    } else if (values == 1) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => rename_album(
+                                    name: name,
+                                  )));
+                    } else if (values == 2) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  Edit_keyword_des_album()));
+                    } else if (values == 3) {
+                      print(this.name);
+                      AlertDialogs_manage_album.yesCancelDialog(
+                          context,
+                          'Delete',
+                          'are you sure?',
+                          this.name,
+                          "delete",
+                          "",
+                          "");
+                    }
+                  }),
+            /*IconButton(
                 icon: Icon(
                   Icons.settings_outlined,
                   color: MyStyle().blackColor,
@@ -286,10 +377,10 @@ class Allimages extends State<ShowImage> {
                 onPressed: () async {
                   DBHelper db = new DBHelper();
                   var dataalbum = await db.getData_Album(this.name);
-                  print("*******////*****");
+                  print("////");
                   print(dataalbum);
 
-                  print("*******////*****");
+                  print("////");
                   print(dataalbum[0]['IDENTITYALBUM']);
                   var page;
 
@@ -324,7 +415,7 @@ class Allimages extends State<ShowImage> {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => page));
                 },
-              ),
+              ), */
           ],
         ),
         body: GridView.count(
@@ -334,15 +425,6 @@ class Allimages extends State<ShowImage> {
           padding: EdgeInsets.all(8),
           childAspectRatio: 1 / 1.2,
           children: <Widget>[
-            /*for (int i = 0; i < getPic.length; i++)
-              _GridItem(
-                getPic[i]['Namebum'] as String,
-                img: getPic[i]['img'] as String,
-                onTap: () => checkOption(i),
-                selected: i == optionSelected,
-                selectPic: i,
-                name: name,
-              )*/
             if (this.listimageshow != null)
               if (this.listimageshow["device"] != null)
                 for (int i = 0; i < this.listimageshow["device"].length; i++)
