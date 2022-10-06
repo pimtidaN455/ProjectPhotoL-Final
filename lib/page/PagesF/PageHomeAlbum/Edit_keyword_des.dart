@@ -108,10 +108,10 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
-          height: 5,
+          height: 20,
         ),
         Text(
-          '   Add Desription',
+          '   Edit Desription',
           style: TextStyle(
             fontSize: 25,
             color: MyStyle().blackColor,
@@ -132,7 +132,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
               ),
             )),
         Text(
-          '   Add keyword',
+          '   Edit keyword',
           style: TextStyle(
             fontSize: 25,
             color: MyStyle().blackColor,
@@ -169,7 +169,9 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
                   icon: const Icon(Icons.add),
                 ),
                 enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                focusedBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
             suggestionsCallback: (String pattern) {
@@ -222,8 +224,9 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
 
   Container Edit_Desription() {
     return Container(
-      margin: EdgeInsets.only(top: 16, bottom: 16),
-      width: screen * 0.8,
+      padding: const EdgeInsets.all(1),
+      margin: EdgeInsets.only(top: 10, bottom: 16),
+      width: screen * 0.95,
       child: TextFormField(
         controller: Edit_des,
         decoration: InputDecoration(
@@ -237,9 +240,9 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
             hintText: this.description,
             //prefixIcon: Icon(Icons.email_outlined),
             enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
             focusedBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         validator: (value) {
           final Edit_des = RegExp(r"^[a-zA-Zก-๏\s]");
           if (value!.isEmpty) {

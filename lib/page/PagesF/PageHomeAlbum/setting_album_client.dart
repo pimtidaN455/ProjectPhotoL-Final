@@ -49,7 +49,7 @@ class setting_album_page extends State<setting_Album_Client> {
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios_new,
-          color: MyStyle().whiteColor,
+          color: MyStyle().blackColor,
         ),
         onPressed: () async {
           var title = this.title;
@@ -73,12 +73,12 @@ class setting_album_page extends State<setting_Album_Client> {
         },
       ),
       ////////////////////////////////////////////
-      backgroundColor: MyStyle().deleteColor,
+      backgroundColor: MyStyle().whiteColor,
       title: Text(
         "Album details " + this.title,
         style: TextStyle(
           fontSize: 30,
-          color: MyStyle().whiteColor,
+          color: MyStyle().blackColor,
           fontWeight: FontWeight.bold,
           fontFamily: 'Rajdhani',
         ),
@@ -87,15 +87,50 @@ class setting_album_page extends State<setting_Album_Client> {
     );
   }
 
-  Container setting_P() {
+  SingleChildScrollView setting_P() {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      //padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 10),
-      height: size.height * 1,
-
-      child: Stack(
-        children: <Widget>[
-          /*Container(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            //ชื่ออัลบั้ม
+            "   Name Album : " + this.title,
+            style: TextStyle(
+              color: MyStyle().blackColor,
+              fontSize: 20,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            //คีย์เวิร์ดทั้งหมดของอัลบั้มนั้น
+            "   Keyword : " + keyword,
+            style: TextStyle(
+              color: MyStyle().blackColor,
+              fontSize: 20,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            //เดสทั้งหมดของอลับั้มนั้น
+            "   Description : " + description,
+            style: TextStyle(
+              color: MyStyle().blackColor,
+              fontSize: 20,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ],
+        /*Container(
             padding: EdgeInsets.only(left: 20, right: 20, bottom: 56),
             height: size.height * 0.2 - 60,
             decoration: BoxDecoration(
@@ -105,49 +140,9 @@ class setting_album_page extends State<setting_Album_Client> {
                   bottomRight: Radius.circular(36)),
             ),
           ),*/
-          Container(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  //ชื่ออัลบั้ม
-                  "Name Album : " + this.title,
-                  style: TextStyle(
-                    color: MyStyle().blackColor,
-                    fontSize: 20,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  //คีย์เวิร์ดทั้งหมดของอัลบั้มนั้น
-                  "Keyword : " + keyword,
-                  style: TextStyle(
-                    color: MyStyle().blackColor,
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  //เดสทั้งหมดของอลับั้มนั้น
-                  "Description : " + description,
-                  style: TextStyle(
-                    color: MyStyle().blackColor,
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ])
-              ///////////// How to ///////////////
-              /*Container(
+
+        ///////////// How to ///////////////
+        /*Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: FlatButton(
@@ -253,8 +248,6 @@ class setting_album_page extends State<setting_Album_Client> {
                 ),
 
                 */
-              ),
-        ],
       ),
     );
   }

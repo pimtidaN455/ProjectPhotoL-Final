@@ -174,7 +174,9 @@ class Add_Album_PageState extends State<Add_Album_Page> {
                   icon: const Icon(Icons.add),
                 ),
                 enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                focusedBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
             suggestionsCallback: (String pattern) {
@@ -228,7 +230,7 @@ class Add_Album_PageState extends State<Add_Album_Page> {
   Container AddNameSubJ() {
     return Container(
       margin: EdgeInsets.only(top: 16, bottom: 16),
-      width: screen * 0.8,
+      width: screen * 0.95,
       child: TextFormField(
         controller: Add_Name_SubJ,
         decoration: InputDecoration(
@@ -242,9 +244,9 @@ class Add_Album_PageState extends State<Add_Album_Page> {
             labelText: 'Name of suject',
             //prefixIcon: Icon(Icons.email_outlined),
             enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
             focusedBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         validator: (value) {
           final Add_Name_SubJ = RegExp(r"^[a-zA-Zก-๏\s]");
           if (value!.isEmpty) {
@@ -262,7 +264,7 @@ class Add_Album_PageState extends State<Add_Album_Page> {
   Container AddDesription() {
     return Container(
       margin: EdgeInsets.only(top: 16, bottom: 16),
-      width: screen * 0.8,
+      width: screen * 0.95,
       child: TextFormField(
         controller: Add_des,
         decoration: InputDecoration(
@@ -276,9 +278,9 @@ class Add_Album_PageState extends State<Add_Album_Page> {
             labelText: 'AddDesription',
             //prefixIcon: Icon(Icons.email_outlined),
             enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
             focusedBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         validator: (value) {
           final Add_des = RegExp(r"^[a-zA-Zก-๏\s]");
           if (value!.isEmpty) {
