@@ -283,6 +283,8 @@ class Allimages extends State<ShowImage> {
                             )));
               },
             ),
+
+            ///////// ตั้งค่า ดูข้อมูลอัลบั้ม /////////
             if (statusAlbum == "Usercreate")
               PopupMenuButton(
                   icon: Icon(
@@ -308,6 +310,7 @@ class Allimages extends State<ShowImage> {
                         ),
                       ],
                   onSelected: (values) async {
+                    //// ดูข้อมูลอัลบั้มทั้งหมด ////
                     if (values == 0) {
                       DBHelper db = new DBHelper();
                       var dataalbum = await db.getData_Album(this.name);
@@ -344,20 +347,57 @@ class Allimages extends State<ShowImage> {
                                         description: description,
                                         keyword: keyword)));
                       }
-                    } else if (values == 1) {
+                    }
+                    //// เปลี่ยนชื่อ อัลบั้ม /////
+                    else if (values == 1) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => rename_album(
                                     name: name,
                                   )));
-                    } else if (values == 2) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  Edit_keyword_des_album()));
-                    } else if (values == 3) {
+                    }
+                    //// แก้ไขคีย์เวิร์ด ////
+                    else if (values == 2) {
+                      DBHelper db = new DBHelper();
+                      var dataalbum = await db.getData_Album(this.name);
+                      print("////");
+                      print(dataalbum);
+
+                      print("////");
+                      print(dataalbum[0]['IDENTITYALBUM']);
+                      if (dataalbum[0]['IDENTITYALBUM'] != "Servercreate") {
+                        var description = "";
+                        var keyword = "";
+                        if (dataalbum[0]['DESCRIPTIONALBUM'].length != 0) {
+                          description = dataalbum[0]['DESCRIPTIONALBUM'];
+                        }
+                        if (dataalbum[0]['KEYWORDALBUM'].length != 0) {
+                          //keyword = dataalbum[0]['KEYWORDALBUM'];
+                          for (int i = 0;
+                              i < dataalbum[0]['KEYWORDALBUM'].length;
+                              ++i) {
+                            if (dataalbum[0]['KEYWORDALBUM'][i] == "/" &&
+                                i < dataalbum[0]['KEYWORDALBUM'].length - 1) {
+                              keyword += " , ";
+                            } else if (dataalbum[0]['KEYWORDALBUM'][i] != "/") {
+                              keyword += dataalbum[0]['KEYWORDALBUM'][i];
+                            }
+                          }
+                        }
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    Edit_keyword_des_album(
+                                      description: description,
+                                      keyword: keyword,
+                                    )));
+                      }
+                    }
+                    //// ลบอัลบั้ม ////
+                    else if (values == 3) {
                       print(this.name);
                       AlertDialogs_manage_album.yesCancelDialog(
                           context,
@@ -369,53 +409,6 @@ class Allimages extends State<ShowImage> {
                           "");
                     }
                   }),
-            /*IconButton(
-                icon: Icon(
-                  Icons.settings_outlined,
-                  color: MyStyle().blackColor,
-                ),
-                onPressed: () async {
-                  DBHelper db = new DBHelper();
-                  var dataalbum = await db.getData_Album(this.name);
-                  print("////");
-                  print(dataalbum);
-
-                  print("////");
-                  print(dataalbum[0]['IDENTITYALBUM']);
-                  var page;
-
-                  if (dataalbum[0]['IDENTITYALBUM'] != "Servercreate") {
-                    var description = "";
-                    var keyword = "";
-                    if (dataalbum[0]['DESCRIPTIONALBUM'].length != 0) {
-                      description = dataalbum[0]['DESCRIPTIONALBUM'];
-                    }
-                    if (dataalbum[0]['KEYWORDALBUM'].length != 0) {
-                      //keyword = dataalbum[0]['KEYWORDALBUM'];
-                      for (int i = 0;
-                          i < dataalbum[0]['KEYWORDALBUM'].length;
-                          ++i) {
-                        if (dataalbum[0]['KEYWORDALBUM'][i] == "/" &&
-                            i < dataalbum[0]['KEYWORDALBUM'].length - 1) {
-                          keyword += " , ";
-                        } else if (dataalbum[0]['KEYWORDALBUM'][i] != "/") {
-                          keyword += dataalbum[0]['KEYWORDALBUM'][i];
-                        }
-                      }
-                    }
-                    print(description);
-                    print(keyword);
-                    page = setting_Album_Client(
-                        title: this.name,
-                        description: description,
-                        keyword: keyword);
-                  } else {
-                    page = setting_Album_server(title: this.name);
-                  }
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => page));
-                },
-              ), */
           ],
         ),
         body: GridView.count(
@@ -541,202 +534,3 @@ class _GridItem extends StatelessWidget {
     );
   }
 }
-
-class ImageData {
-  String imageURL;
-  bool isSelected;
-  int id;
-  var tokenphoto;
-
-  ImageData(this.imageURL, this.isSelected, this.id, this.tokenphoto);
-/*
-  static List<ImageData> getImage() {
-    return [
-      ImageData('https://picsum.photos/200', false, 1),
-      ImageData('https://picsum.photos/100', false, 2),
-      ImageData('https://picsum.photos/300', false, 3),
-      ImageData('https://picsum.photos/400', false, 4),
-      ImageData('https://picsum.photos/500', false, 5),
-      ImageData('https://picsum.photos/600', false, 6),
-      ImageData('https://picsum.photos/700', false, 7),
-      ImageData('https://picsum.photos/800', false, 8),
-      ImageData('https://picsum.photos/900', false, 9),
-    ];
-  }*/
-}
-/*import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:project_photo_learn/Object/imagecloud.dart';
-import 'package:project_photo_learn/my_style.dart';
-import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImageSliderPage.dart';
-import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/places_data.dart';
-import 'package:project_photo_learn/page/PagesF/first.dart';
-
-import '../../Backend/User_data.dart';
-
-// ignore: must_be_immutable
-class ShowImage extends StatefulWidget {
-  var name;
-  var listimageshow;
-  ShowImage({this.name, this.listimageshow});
-  @override
-  Allimages createState() =>
-      Allimages(name: name, listimageshow: listimageshow);
-}
-
-class Allimages extends State<ShowImage> {
-  int optionSelected = 0;
-  var name;
-  var listimageshow; //อัลบั้มที่ผู้ใช้เลือก
-  Allimages({this.name, this.listimageshow});
-
-  void checkOption(int index) {
-    setState(() {
-      optionSelected = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              color: MyStyle().blackColor,
-            ),
-            onPressed: () async {
-              user_file user0 = new user_file();
-              await user0.getdata_user_file();
-              var user = await user0;
-
-              var ListImgCloud;
-              var listimageshow;
-              if (await user.Login) {
-                list_album la = new list_album();
-                var ListImageDevice = await la.getimagefrom_api();
-                print(
-                    'LAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLaLAAaaaaaaaLa');
-                //print(await la.listimageshow_device);
-                listimageshow = await la.listimageshow;
-                listimagecloud listimgC = new listimagecloud();
-                ListImgCloud = await listimgC.getimagefrom_api();
-                print('\\\\\\\\\\\\\\\\\List\\\\\\\\\\\\\\\\');
-                for (int i = 0; i < ListImgCloud.length; i++) {
-                  print(await ListImgCloud[i].gettoString());
-                }
-              }
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FirstState(
-                          page: 0,
-                          user: user,
-                          listimageshow: listimageshow,
-                          ListImgCloud: ListImgCloud)));
-            },
-          ),
-          backgroundColor: MyStyle().whiteColor,
-          title: Text(
-            this.name,
-            style: TextStyle(
-              fontSize: 30,
-              color: MyStyle().blackColor,
-              fontWeight: FontWeight.bold,
-              //fontStyle: FontStyle.normal,
-              fontFamily: 'Rajdhani',
-            ),
-          ),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.drive_file_move_outline,
-                color: MyStyle().blackColor,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.delete_outlined,
-                color: MyStyle().deleteColor,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: MyStyle().blackColor,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
-        body: GridView.count(
-          crossAxisCount: 3,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          padding: EdgeInsets.all(8),
-          childAspectRatio: 1 / 1.2,
-          children: <Widget>[
-            /*for (int i = 0; i < getPic.length; i++)
-              _GridItem(
-                getPic[i]['Namebum'] as String,
-                img: getPic[i]['img'] as String,
-                onTap: () => checkOption(i),
-                selected: i == optionSelected,
-                selectPic: i,
-                name: name,
-              )*/
-            if (this.listimageshow["device"] != null)
-              for (int i = 0; i < this.listimageshow["device"].length; i++)
-                _GridItem(this.listimageshow["device"][i]['Namebum'] as String,
-                    img: this.listimageshow["device"][i]['img'] as String,
-                    onTap: () => checkOption(i + 1),
-                    selected: i + 1 == optionSelected,
-                    selectbum: i + 1,
-                    listimageshow: listimageshow),
-          ],
-        ));
-  }
-}
-
-class _GridItem extends StatelessWidget {
-  const _GridItem(
-    this.title, {
-    Key? key,
-    required this.img,
-    required this.selectbum,
-    required this.onTap,
-    required this.selected,
-    required this.listimageshow,
-  }) : super(key: key);
-
-  final String title;
-  final String img;
-  final int selectbum;
-  final VoidCallback onTap;
-  final bool selected;
-  final listimageshow;
-  @override
-  Widget build(BuildContext context) {
-    return Ink.image(
-      fit: BoxFit.cover,
-      image: FileImage(File(img)),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      SlideImage(title: title, selectPic: listimageshow)));
-          print("เลือกรูปที่ : ");
-          print(title);
-          print("///////////////////////////////////////////////////////");
-        },
-      ),
-    );
-  }
-}*/

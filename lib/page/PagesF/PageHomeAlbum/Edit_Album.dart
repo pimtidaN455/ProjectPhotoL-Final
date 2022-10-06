@@ -153,7 +153,7 @@ class Delete_AlbumState extends State<Delete_Album> {
             textFieldConfiguration: TextFieldConfiguration(
               controller: Add_Keyword_SubJ,
               onEditingComplete: () {
-                controller.listTags.add(Add_Keyword_SubJ.text);
+                controller.listTagBum.add(Add_Keyword_SubJ.text);
                 Add_Keyword_SubJ.clear();
               },
               autofocus: false,
@@ -166,7 +166,7 @@ class Delete_AlbumState extends State<Delete_Album> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     if (Add_Keyword_SubJ.text != "") {
-                      controller.listTags.add(Add_Keyword_SubJ.text);
+                      controller.listTagBum.add(Add_Keyword_SubJ.text);
                     }
                     Add_Keyword_SubJ.clear();
                   },
@@ -181,7 +181,7 @@ class Delete_AlbumState extends State<Delete_Album> {
                   (e) => e.toLowerCase().contains(pattern.toLowerCase()));
             },
             onSuggestionSelected: (String suggestion) =>
-                controller.listTags.add(suggestion),
+                controller.listTagBum.add(suggestion),
             itemBuilder: (BuildContext context, Object? itemData) {
               return ListTile(
                 leading: Icon(Icons.tag),
@@ -202,19 +202,19 @@ class Delete_AlbumState extends State<Delete_Album> {
             fontFamily: 'Rajdhani',
           ),
         ),
-        Obx(() => controller.listTags.length == 0
+        Obx(() => controller.listTagBum.length == 0
             ? Center(
                 child: Text('\n No tag'),
               )
             : Wrap(
-                children: controller.listTags
+                children: controller.listTagBum
                     .map((element) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Chip(
                             label: Text(element),
                             deleteIcon: Icon(Icons.clear),
                             onDeleted: () =>
-                                controller.listTags.remove(element),
+                                controller.listTagBum.remove(element),
                           ),
                         ))
                     .toList(),
@@ -304,13 +304,13 @@ class Delete_AlbumState extends State<Delete_Album> {
           if (validate) {
             print(Add_Name_SubJ.text);
             var keyword = "";
-            for (int i = 0; i < controller.listTags.length; ++i) {
-              keyword += (controller.listTags[i]) + "/";
+            for (int i = 0; i < controller.listTagBum.length; ++i) {
+              keyword += (controller.listTagBum[i]) + "/";
             }
             use_API use_api = new use_API();
             await use_api.manage_Album(
                 Add_Name_SubJ.text, Add_des.text, keyword, "", "add");
-            print(controller.listTags);
+            print(controller.listTagBum);
 
             user_file user = await new user_file();
             await user.getdata_user_file();
@@ -352,7 +352,7 @@ class Delete_AlbumState extends State<Delete_Album> {
             Navigator.of(this.context).push(materialPageRoute);
           }
 
-          controller.listTags.clear();
+          controller.listTagBum.clear();
         },
         style: ElevatedButton.styleFrom(
             primary: MyStyle().blackColor,

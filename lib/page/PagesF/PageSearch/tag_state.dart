@@ -3,8 +3,12 @@ import 'package:project_photo_learn/Sqfl/DBHelper.dart';
 //import 'package:get/get_state_manager/get_state_manager.dart';
 
 class TagStateController extends GetxController {
-  var listTags = List<String>.empty(growable: true).obs;
+  var listTagAdd = List<String>.empty(growable: true).obs;
+  var listTagSearch = List<String>.empty(growable: true).obs;
+  var listTagBum = List<String>.empty(growable: true).obs;
 }
+
+class DesScription extends GetxController {}
 
 class ManageTag {
   getTagAlbum() async {

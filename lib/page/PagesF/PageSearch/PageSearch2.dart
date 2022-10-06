@@ -33,7 +33,7 @@ class Searchpage extends StatelessWidget {
             textFieldConfiguration: TextFieldConfiguration(
               controller: textController,
               onEditingComplete: () {
-                controller.listTags.add(textController.text);
+                controller.listTagSearch.add(textController.text);
                 textController.clear();
               },
               autofocus: false,
@@ -59,7 +59,7 @@ class Searchpage extends StatelessWidget {
                   (e) => e.toLowerCase().contains(pattern.toLowerCase()));
             },
             onSuggestionSelected: (String suggestion) =>
-                controller.listTags.add(suggestion),
+                controller.listTagSearch.add(suggestion),
             itemBuilder: (BuildContext context, Object? itemData) {
               return ListTile(
                 leading: Icon(Icons.tag),
@@ -71,19 +71,19 @@ class Searchpage extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Obx(() => controller.listTags.length == 0
+        Obx(() => controller.listTagSearch.length == 0
             ? Center(
                 child: Text('No tag'),
               )
             : Wrap(
-                children: controller.listTags
+                children: controller.listTagSearch
                     .map((element) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Chip(
                             label: Text(element),
                             deleteIcon: Icon(Icons.clear),
                             onDeleted: () =>
-                                controller.listTags.remove(element),
+                                controller.listTagSearch.remove(element),
                           ),
                         ))
                     .toList(),

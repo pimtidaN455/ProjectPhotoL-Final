@@ -15,23 +15,39 @@ import '../../Backend/User_data.dart';
 var suggestTag2 = ["Pizza", "Pasta", "Spagetti"];
 
 class Edit_keyword_des_album extends StatefulWidget {
-  const Edit_keyword_des_album({Key? key}) : super(key: key);
+  var description;
+  var keyword;
+  Edit_keyword_des_album({required this.description, required this.keyword});
   @override
-  Edit_keyword_des_albumState createState() => Edit_keyword_des_albumState();
+  Edit_keyword_des_albumState createState() => Edit_keyword_des_albumState(
+      description: this.description, keyword: this.keyword);
 }
 
 class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
+  var description;
+  var keyword;
+  Edit_keyword_des_albumState(
+      {required this.description, required this.keyword});
   late double screen;
   final controller = Get.put(TagStateController());
-  TextEditingController Add_Name_SubJ = TextEditingController();
-  TextEditingController Add_des = TextEditingController();
-  TextEditingController Add_Keyword_SubJ = TextEditingController();
+  TextEditingController ConfirmEdit_KeywordJa = TextEditingController();
+  TextEditingController Edit_des = TextEditingController();
+  TextEditingController Edit_Keyword = TextEditingController();
+
   //สร้างตัวแปร fromKey
   final _EdKeyword = GlobalKey<FormState>();
   final _EdDes = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    print("หน้าแก้ไขรับอันนี้มาาา");
+    print(keyword);
+    print(description);
+    Edit_des = TextEditingController(text: description);
+
+    //controller.listTagBum.add(keyword);
+    //Edit_Keyword = TextEditingController(text: keyword);
+
     screen = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -111,7 +127,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
               child: Column(
                 //mainAxisSize: MainAxisSize.min,
                 children: [
-                  AddDesription(),
+                  Edit_Desription(),
                 ],
               ),
             )),
@@ -129,24 +145,26 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
           padding: const EdgeInsets.all(8),
           child: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
-              controller: Add_Keyword_SubJ,
+              controller: Edit_Keyword,
               onEditingComplete: () {
-                controller.listTags.add(Add_Keyword_SubJ.text);
-                Add_Keyword_SubJ.clear();
+                //controller.listTagBum.add(keyword);
+                controller.listTagBum.add(Edit_Keyword.text);
+                Edit_Keyword.clear();
               },
               autofocus: false,
               style: TextStyle(fontSize: 20),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Tag',
+                hintText: keyword,
                 //contentPadding: EdgeInsets.symmetric(vertical: 2),
                 prefixIcon: Icon(Icons.tag),
                 suffixIcon: IconButton(
                   onPressed: () {
-                    if (Add_Keyword_SubJ.text != "") {
-                      controller.listTags.add(Add_Keyword_SubJ.text);
+                    if (Edit_Keyword.text != "") {
+                      //controller.listTagBum.add(keyword);
+                      controller.listTagBum.add(Edit_Keyword.text);
                     }
-                    Add_Keyword_SubJ.clear();
+                    Edit_Keyword.clear();
                   },
                   icon: const Icon(Icons.add),
                 ),
@@ -159,7 +177,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
                   (e) => e.toLowerCase().contains(pattern.toLowerCase()));
             },
             onSuggestionSelected: (String suggestion) =>
-                controller.listTags.add(suggestion),
+                controller.listTagBum.add(suggestion),
             itemBuilder: (BuildContext context, Object? itemData) {
               return ListTile(
                 leading: Icon(Icons.tag),
@@ -180,54 +198,54 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
             fontFamily: 'Rajdhani',
           ),
         ),
-        Obx(() => controller.listTags.length == 0
+        Obx(() => controller.listTagBum.length == 0
             ? Center(
                 child: Text('\n No tag'),
               )
             : Wrap(
-                children: controller.listTags
+                children: controller.listTagBum
                     .map((element) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Chip(
                             label: Text(element),
                             deleteIcon: Icon(Icons.clear),
                             onDeleted: () =>
-                                controller.listTags.remove(element),
+                                controller.listTagBum.remove(element),
                           ),
                         ))
                     .toList(),
               )),
-        buttonaddbum(),
+        ConfirmEdit_Keyword(),
       ])),
     );
   }
 
-  Container AddDesription() {
+  Container Edit_Desription() {
     return Container(
       margin: EdgeInsets.only(top: 16, bottom: 16),
       width: screen * 0.8,
       child: TextFormField(
-        controller: Add_des,
+        controller: Edit_des,
         decoration: InputDecoration(
             border: OutlineInputBorder(),
             suffixIcon: IconButton(
               onPressed: () {
-                Add_des.clear();
+                Edit_des.clear();
               },
               icon: const Icon(Icons.clear),
             ),
-            labelText: 'AddDesription',
+            hintText: this.description,
             //prefixIcon: Icon(Icons.email_outlined),
             enabledBorder:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
             focusedBorder:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
         validator: (value) {
-          final Add_des = RegExp(r"^[a-zA-Zก-๏\s]");
+          final Edit_des = RegExp(r"^[a-zA-Zก-๏\s]");
           if (value!.isEmpty) {
             return "Please enter name of subject";
           }
-          if (Add_des.hasMatch(value)) {
+          if (Edit_des.hasMatch(value)) {
             return null;
           } else
             return "Please enter a-z A-Z 0-9 ก-ฮ ";
@@ -236,7 +254,7 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
     );
   }
 
-  Container buttonaddbum() {
+  Container ConfirmEdit_Keyword() {
     return Container(
       margin: EdgeInsets.all(50.0),
       width: screen * 0.75,
@@ -246,19 +264,19 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
           print('--------------- Add Album ---------------');
           bool validate = _EdKeyword.currentState!.validate();
           if (validate) {
-            print(Add_Name_SubJ.text);
+            print(ConfirmEdit_KeywordJa.text);
             var keyword = "";
-            for (int i = 0; i < controller.listTags.length; ++i) {
-              keyword += (controller.listTags[i]) + "/";
+            for (int i = 0; i < controller.listTagBum.length; ++i) {
+              keyword += (controller.listTagBum[i]) + "/";
             }
 
             use_API use_api = new use_API();
             await use_api.manage_Album(
-                Add_Name_SubJ.text, "", keyword, Add_des.text, "add");
+                ConfirmEdit_KeywordJa.text, "", keyword, Edit_des.text, "add");
             //  (namealbum, nameoldalbum, keyword, description, status)
-            print(controller.listTags);
+            print(controller.listTagBum);
             print(keyword);
-            print(Add_des.text);
+            print(Edit_des.text);
             user_file user = await new user_file();
             await user.getdata_user_file();
             var user0 = await user;
@@ -304,11 +322,14 @@ class Edit_keyword_des_albumState extends State<Edit_keyword_des_album> {
                         AllTagAlbum: ListTag)));
           } else {
             MaterialPageRoute materialPageRoute = MaterialPageRoute(
-                builder: (BuildContext context) => Edit_keyword_des_album());
+                builder: (BuildContext context) => Edit_keyword_des_album(
+                      description: this.description,
+                      keyword: this.keyword,
+                    ));
             Navigator.of(this.context).push(materialPageRoute);
           }
 
-          controller.listTags.clear();
+          controller.listTagBum.clear();
         },
         style: ElevatedButton.styleFrom(
             primary: MyStyle().blackColor,

@@ -3,12 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_photo_learn/Sqfl/DBHelper.dart';
 import 'package:project_photo_learn/my_style.dart';
-import 'package:project_photo_learn/page/Backend/Use_Api.dart';
+import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/ImagePage.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/manage_album_Home.dart';
 import 'package:project_photo_learn/page/PagesF/PageHomeAlbum/setting_album_client.dart';
-import 'package:project_photo_learn/page/PagesF/PagePerson/setting_page.dart';
-
-import 'package:project_photo_learn/page/Start/start_login.dart';
 
 class rename_album extends StatefulWidget {
   // const rename_album({Key? key}) : super(key: key);
@@ -35,7 +32,10 @@ class _rename_albumState extends State<rename_album> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: MyStyle().blackColor,
+            ),
             onPressed: () async {
               DBHelper db = new DBHelper();
               var dataalbum = await db.getData_Album(this.name);
@@ -45,6 +45,7 @@ class _rename_albumState extends State<rename_album> {
               print("*******////*****");
               print(dataalbum[0]['IDENTITYALBUM']);
               var page;
+              var page2;
 
               var description = "";
               var keyword = "";
@@ -67,48 +68,78 @@ class _rename_albumState extends State<rename_album> {
               page = setting_Album_Client(
                   title: this.name, description: description, keyword: keyword);
 
+              /*page2 = ShowImage( name : name,
+   listimageshow : listimageshow , 
+ statusAlbum: statusAlbum);*/
+
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => page));
             },
           ),
-          backgroundColor: MyStyle().blackColor,
+          title: Text(
+            "Rename Album",
+            style: TextStyle(
+              fontSize: 30,
+              color: MyStyle().blackColor,
+              fontWeight: FontWeight.bold,
+              //fontStyle: FontStyle.normal,
+              fontFamily: 'Rajdhani',
+            ),
+          ),
+          backgroundColor: MyStyle().whiteColor,
         ),
         body: Container(
-            alignment: Alignment.topCenter,
-            child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                child: Form(
+          child: Container(
+            alignment: Alignment.topLeft,
+
+            //mainAxisSize: MainAxisSize.max,
+            child: SingleChildScrollView(
+              // alignment: Alignment.topLeft,
+              padding: EdgeInsets.all(10),
+              child: Column(children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsetsDirectional.fromSTEB(45, 10, 0, 0),
+                  child: Text(
+                    'Old Name Album : ' +
+                        this.name +
+                        "\n" +
+                        "New name Album : ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: MyStyle().blackColor,
+                      fontWeight: FontWeight.bold,
+                      //fontStyle: FontStyle.normal,
+                      fontFamily: 'Rajdhani',
+                    ),
+                  ),
+                ),
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     key: _fromKey,
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Rename album',
-                            style: TextStyle(
-                              fontSize: 50,
-                              color: MyStyle().blackColor,
-                              fontWeight: FontWeight.bold,
-                              //fontStyle: FontStyle.normal,
-                              fontFamily: 'Rajdhani',
-                            ),
-                          ),
-                          Emailre(),
-                          NextToRePassWord(),
-                        ],
-                      ),
-                    )))));
+                      // padding: EdgeInsets.all(10),
+                      child: Column(children: [
+                        Namere(),
+                        NextToRePassWord(),
+                      ]),
+                    )),
+              ]),
+            ),
+          ),
+        ));
   }
 
-  Container Emailre() {
+  Container Namere() {
     return Container(
       margin: EdgeInsets.only(top: 16),
       width: screen * 0.8,
       child: TextFormField(
         controller: rename,
         decoration: InputDecoration(
-            labelText: 'New name album',
-            prefixIcon: Icon(Icons.near_me),
+            hintText: name,
+            prefixIcon: Icon(Icons.people_alt),
             suffixIcon: IconButton(
               onPressed: () {
                 rename.clear();
